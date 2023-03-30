@@ -1,51 +1,53 @@
-var cartId = "cart";
+const cartName = "cart"
+const deduplicate = (arr) => arr.forEach((el)=>{})
+
+const toast =
+  (message, imageSrc = "") => {
+    Toastify(
+    { text: message || ""
+    , duration: 5000
+    , destination: "https://github.com/apvarun/toastify-js"
+    , newWindow: true
+    , avatar: imageSrc
+    , close: true
+    , gravity: "top"
+    , position: "right"
+    , stopOnFocus: true
+    , style: { }
+    , onClick: function(){} 
+    }).showToast()
+  }
+
+const cart = {}
+
+cart.set = 
+  (wholeCart) => localStorage.setItem(cartName, canonicalize(wholeCart))
+
+cart.get =
+    () => JSON.parse(localStorage.getItem(cartName)) || {};
  
-var localAdapter = {
- 
-    saveCart: function (object) {
- 
-        var stringified = JSON.stringify(object);
-        localStorage.setItem(cartId, stringified);
-        return true;
- 
-    },
-    getCart: function () {
- 
-        return JSON.parse(localStorage.getItem(cartId));
- 
-    },
-    clearCart: function () {
- 
-        localStorage.removeItem(cartId);
- 
+cart.clear =
+    () => localStorage.removeItem(cartName);
+
+cart.add = 
+    (item) => {
+      const canonicalJson = canonicalize(item)
+      const digest = generateJsonDigest(canonicalJson)
+      const currentCart = cart.get()
+      if(currentCart[digest]) {
+        if(currentCart[digest].quantity && parseInt(currentCart[digest].quantity)){
+          currentCart[digest].quantity = currentCart[digest].quantity + 1
+        } else {
+          currentCart[digest].quantity = 2
+        }
+      } else {
+        currentCart[digest] = { ...item, quantity: 1 }
+      }
+      cart.set(currentCart)
+      toast(`Added ${item.description} to cart`, item.image)
     }
  
-};
- 
-var ajaxAdapter = {
- 
-    saveCart: function (object) {
- 
-        var stringified = JSON.stringify(object);
-         
- 
-    },
-    getCart: function () {
- 
-        // do an ajax request -- recognize user by cookie / ip / session
-        return JSON.parse(data);
- 
-    },
-    clearCart: function () {
- 
-         
- 
-    }
- 
-};
- 
-var storage = localAdapter;
- 
+/*
 var helpers = {
  
     getHtml: function (id) {
@@ -226,3 +228,4 @@ document.addEventListener('DOMContentLoaded', function () {
  
  
 });
+*/

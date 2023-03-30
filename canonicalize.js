@@ -22,3 +22,5 @@ const canonicalize =
     return t + comma + canonicalize(cv) + ':' + canonicalize(object[cv]);
   }, '') + '}';
 }
+
+JSON.canonicalize = canonicalize

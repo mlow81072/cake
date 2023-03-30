@@ -15,29 +15,43 @@ filterForm.addEventListener( "submit", displayFilteredProductsButton )
 
 /**
 *
-* Generate Image
+* Card Buttons
 *
 **/
-const generateCustomImage = 
+const cardButtons = 
   async (event) => {
     const eventElement = event.target
-    if(eventElement.nodeName === "BUTTON" && Array.from(eventElement.classList).includes("button-customize")) {
+    if (eventElement.nodeName === "BUTTON"){
       const productElement = event.target.closest("[itemtype='https://schema.org/Product']")
+      const elementClasses = Array.from(eventElement.classList)
       const originalDescription = productElement.querySelector("[itemprop='description']").textContent
-      const prompt = (originalDescription + ", " + productElement.querySelector("input").value).replace(/, ,/,",")
       const price = productElement.querySelector("[itemprop='price']").getAttribute("content")
-      const url = await fetchImage(prompt)
-      products.push(
-        { description: prompt
-        , price: price
-        , image: url
-        })
-      displayFilteredProducts(products, originalDescription)
+      const currentImageUrl = productElement.querySelector("img").getAttribute("src")
+      const currentProduct = 
+          { description: originalDescription
+          , price: price
+          , image: currentImageUrl
+          }
+
+      if ( elementClasses.includes("button-customize")) {
+        const prompt = (originalDescription + ", " + productElement.querySelector("input").value).replace(/, ,/,",")
+        const url = await fetchImage(prompt)
+        const newProduct = 
+          { description: prompt
+          , price: price
+          , image: url
+          }
+        products.push(newProduct)
+        displayFilteredProducts(products, originalDescription)
+      } else if(elementClasses.includes("button-add-to-cart")) {
+        cart.add(currentProduct)
+      }
+
     }
   }
  
 const productSection = document.querySelector("#products")
-productSection.addEventListener("click",generateCustomImage)
+productSection.addEventListener("click",cardButtons)
 
 /**
 *
