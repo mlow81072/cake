@@ -10,7 +10,7 @@ const displayFilteredProductsButton =
     event.preventDefault()
   }
 const filterForm = document.querySelector("#filterForm")
-filterForm.addEventListener( "submit", displayFilteredProductsButton )
+if(filterForm) filterForm.addEventListener( "submit", displayFilteredProductsButton )
  
 
 /**
@@ -51,7 +51,7 @@ const cardButtons =
   }
  
 const productSection = document.querySelector("#products")
-productSection.addEventListener("click",cardButtons)
+if (productSection) productSection.addEventListener("click",cardButtons)
 
 /**
 *
@@ -60,4 +60,17 @@ productSection.addEventListener("click",cardButtons)
 **/
 
 window.onload =
-  () => { displayFilteredProducts(products,"chocolate") }
+  () => {
+    const tableElement = document.querySelector("table")
+    console.log("onload called")
+    if(tableElement) {
+      console.log("table element found")
+      const currentCart = cart.get()
+      const html = Object.values(currentCart).map( itemToHTMLRow ).join("")
+      tableElement.innerHTML = html
+    } else {
+      console.log("table element not found")
+      displayFilteredProducts(products,"chocolate")
+    }
+  }
+

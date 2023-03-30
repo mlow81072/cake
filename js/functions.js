@@ -29,6 +29,16 @@ const jsonToHTML =
   </article>
   `
 
+const itemToHTMLRow =
+  (json) => `
+  <tr>
+    <td><img src=${json.image}></td>
+    <td>${json.description}</td>
+    <td>${json.price}</td>
+    <td><input type="number" step="1" value=${json.quantity}></td>
+  </tr>
+`
+
 const displayFilteredProducts =
         (products, searchTerm) => {
           document.querySelector("#products").innerHTML = 
