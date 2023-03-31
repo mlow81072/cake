@@ -192,13 +192,14 @@ if(appbar) appbar.addEventListener("click",login)
 * Initial Load
 *
 **/
+var user = localStorage.getItem("user") || {}
 
 window.onload =
   () => {
     const tableElement = document.querySelector("table")
     console.log("onload called")
     if(appbar) {
-      renderAppbar({authenticated: false})
+      renderAppbar(user)
     }
     if(tableElement) {
       console.log("table element found")
