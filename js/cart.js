@@ -18,7 +18,7 @@ const toast =
     , newWindow: true
     , avatar: imageSrc
     , close: true
-    , gravity: "top"
+    , gravity: "bottom"
     , position: "right"
     , stopOnFocus: true
     , style: { }

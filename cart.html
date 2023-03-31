@@ -31,6 +31,7 @@
 </head>
 <body>
  
+  <div class="layout-container">
     <table>
         <thead>
           <tr>
@@ -56,6 +57,9 @@
         </tfoot>
 
     </table>
+        <div id="gcash-payment" itemscope itemtype="https://schema.org/PaymentMethod"><img src="gcash.jpg"></div>
+
+  </div>
        <div id="map"></div>
 
     <script src="js/load.js"></script>   
@@ -65,15 +69,13 @@
      integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
      crossorigin=""></script>
              <script>
-               const coordinates = [ 14.4359473, 121.0242965]
-               var map = L.map('map').setView( coordinates, 13);
-                              L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-}).addTo(map);
+               const coordinates = [ 14.8171625,121.0177919 ]
 
-L.marker(coordinates).addTo(map)
-    .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
-    .openPopup();
+               var map = L.map('map').setView( coordinates, 12);
+               L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '' }).addTo(map)
+  L.marker(coordinates).addTo(map)
+    .bindPopup('Cake Shop')
+    .openPopup()
              </script>
  
 </body>

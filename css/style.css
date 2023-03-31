@@ -20,8 +20,10 @@ header h1 { color: white;}
 	animation:  colorchange 3s infinite;
 }
 
-table { margin: 2em auto;}
-#map { margin: 2em;}
+table { margin: 0; }
+#map { margin: 1em;
+}
+table, #map { border: .5rem solid rgba(20,20,20,.8);}
 
 @keyframes colorchange{
 	0%{color: red;}
@@ -30,3 +32,18 @@ table { margin: 2em auto;}
 	100%{ color:#ecd055	  }
 }
 
+.layout-container  {
+  display: flex;
+  margin: 1em;
+  flex-wrap: wrap;
+}
+.layout-container > * {
+  flex: 1 1 auto; 
+}
+#gcash-payment {
+  height: 20em;
+  text-align: center;
+}
+#gcash-payment img {
+  height: 100%;
+}
