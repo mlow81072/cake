@@ -172,7 +172,7 @@ const login =
 
       console.log(response2)
       }
-      localStorage.setItem("user",user)
+      localStorage.setItem("user",JSON.stringify(user))
       renderAppbar(user)
 
     }
@@ -192,7 +192,7 @@ if(appbar) appbar.addEventListener("click",login)
 * Initial Load
 *
 **/
-var user = localStorage.getItem("user") || {}
+var user = JSON.parse(localStorage.getItem("user")) || {}
 
 window.onload =
   () => {
