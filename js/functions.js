@@ -22,8 +22,8 @@ const jsonToHTML =
         <input name="filter" type="text" placeholder="Type customization here">
     </div>
     <div>
-        <button id="button-customize-${generateJsonDigest(json)}" type="submit" class="button-customize">Customize</button>
-        <button id="button-add-to-cart-${generateJsonDigest(json)}" type="submit" class="button-add-to-cart">Add to cart</button>
+        <button id="button-customize-${jsonDigest(json)}" type="submit" class="button-customize">Customize</button>
+        <button id="button-add-to-cart-${jsonDigest(json)}" type="submit" class="button-add-to-cart">Add to cart</button>
     </div>
 
   </article>
@@ -31,11 +31,11 @@ const jsonToHTML =
 
 const itemToHTMLRow =
   (json) => `
-  <tr>
-    <td><img src=${json.image}></td>
-    <td>${json.description}</td>
-    <td>${json.price}</td>
-    <td><input type="number" step="1" value=${json.quantity}></td>
+  <tr itemscope itemtype="https://schema.org/Product">
+    <td><img src=${json.image} itemprop="image"></td>
+    <td itemprop="description">${json.description}</td>
+    <td><input type="number" step="1" value=${json.quantity} min=0></td>
+    <td itemprop="price" content=${json.price}>${json.price}</td>
   </tr>
 `
 
@@ -48,7 +48,7 @@ const displayFilteredProducts =
             .join('')
   }
  
-const generateJsonDigest =
+const jsonDigest =
   (json) => nacl.util.encodeBase64(nacl.hash(nacl.util.decodeUTF8(canonicalize(json))))
  
  

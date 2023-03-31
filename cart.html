@@ -5,6 +5,10 @@
     <title>ADD MO NA YA Shopping cart</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
     <link rel='stylesheet' href='https://cdn.jsdelivr.net/foundation/5.0.2/css/foundation.css'>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin=""/>
+<style>
+    #map{ height: 30em;}
+</style>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
     <link rel='stylesheet' href='https://cdn.jsdelivr.net/foundation/5.0.2/css/foundation.css'>
@@ -32,19 +36,45 @@
           <tr>
             <th>Image</th>
             <th>Description</th>
-            <th>Price</th>
             <th>Quantity</th>
+            <th>Price</th>
           </tr>
         </thead>
 
         <tbody>
         </tbody>
+        <tfoot>
+          <tr>
+            <td>Total</td>
+            <td></td>
+            <td itemscope itemtype="https://schema.org/Quantity">0</td>
+            <td itemscope itemtype="https://schema.org/Offer">
+              <span itemprop="price" content=0>0</span>
+              <meta itemprop="priceCurrency" content="PHP" />
+            </td>
+          </tr>
+        </tfoot>
 
     </table>
+       <div id="map"></div>
 
     <script src="js/load.js"></script>   
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script src="js/cart.js"></script>
+     <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+     integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
+     crossorigin=""></script>
+             <script>
+               const coordinates = [ 14.4359473, 121.0242965]
+               var map = L.map('map').setView( coordinates, 13);
+                              L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(map);
+
+L.marker(coordinates).addTo(map)
+    .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
+    .openPopup();
+             </script>
  
 </body>
 </html>

@@ -29,7 +29,7 @@ const cardButtons =
       const currentImageUrl = productElement.querySelector("img").getAttribute("src")
       const currentProduct = 
           { description: originalDescription
-          , price: price
+          , price: parseInt(price)
           , image: currentImageUrl
           }
 
@@ -38,7 +38,7 @@ const cardButtons =
         const url = await fetchImage(prompt)
         const newProduct = 
           { description: prompt
-          , price: price
+          , price: parseInt(price)
           , image: url
           }
         products.push(newProduct)
@@ -55,6 +55,56 @@ if (productSection) productSection.addEventListener("click",cardButtons)
 
 /**
 *
+* Cart Section
+*
+**/
+
+const updateCart =
+  (event) => {
+    const eventElement = event.target
+    if (eventElement.nodeName === "INPUT"){
+      const productElementRow = event.target.closest("tr")
+
+      const description = productElementRow.querySelector("[itemprop='description']").textContent
+      const price = parseInt(productElementRow.querySelector("[itemprop='price']").getAttribute("content"))
+      const image = productElementRow.querySelector("[itemprop='image']").getAttribute("src")
+      cart.setQuantity({ description, price, image }, eventElement.value )
+      cart.updateTotals()
+      currentCart = cart.get()
+      document.querySelector("tfoot").outerHTML = tfootHTML(currentCart.totalQuantity, currentCart.totalPrice)
+
+      /*
+      const quantityOfProducts  = Object.values(cart.get()).reduce((a,c)=>a+parseInt(c.quantity),0)
+      const totalPrice = Object.values(cart.get()).reduce((a,c)=>a+parseInt(c.price),0)
+
+      document.querySelector("tfoot [itemtype='https://schema.org/Quantity']").innerHTML = quantityOfProducts
+      document.querySelector("tfoot [itemprop='price']").innerHTML = totalPrice
+      document.querySelector("tfoot [itemprop='price']").setAttribute("content",totalPrice)
+      */
+    }
+
+
+  }
+const cartTable = document.querySelector("table")
+if (cartTable) cartTable.addEventListener("change",updateCart)
+/*
+*/
+
+const tfootHTML = (quantity, price) =>`
+        <tfoot>
+          <tr>
+            <td>Total</td>
+            <td></td>
+            <td itemscope itemtype="https://schema.org/Quantity">${quantity}</td>
+            <td itemscope itemtype="https://schema.org/Offer">
+              <span itemprop="price" content=${price}>${price}</span>
+              <meta itemprop="priceCurrency" content="PHP" />
+            </td>
+          </tr>
+        </tfoot>`
+
+/**
+*
 * Initial Load
 *
 **/
@@ -66,8 +116,9 @@ window.onload =
     if(tableElement) {
       console.log("table element found")
       const currentCart = cart.get()
-      const html = Object.values(currentCart).map( itemToHTMLRow ).join("")
-      tableElement.innerHTML = html
+      const tbodyHTML = Object.values(currentCart.items).map( itemToHTMLRow ).join("")
+      tableElement.querySelector("tbody").innerHTML = tbodyHTML
+      tableElement.querySelector("tfoot").outerHTML = tfootHTML(currentCart.totalQuantity, currentCart.totalPrice)
     } else {
       console.log("table element not found")
       displayFilteredProducts(products,"chocolate")

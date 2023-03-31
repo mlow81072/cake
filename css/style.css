@@ -20,6 +20,9 @@ header h1 { color: white;}
 	animation:  colorchange 3s infinite;
 }
 
+table { margin: 2em auto;}
+#map { margin: 2em;}
+
 @keyframes colorchange{
 	0%{color: red;}
 	25%{color:#ecd055 ;}

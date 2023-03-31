@@ -1,5 +1,13 @@
 const cartName = "cart"
-const deduplicate = (arr) => arr.forEach((el)=>{})
+const cart = { }
+cart.get =
+    () => JSON.parse(localStorage.getItem(cartName)) || {};
+const emptyCartValue = 
+  { items: {}, totalPrice: 0, totalQuantity: 0 }
+const initCartValue = 
+  { ...emptyCartValue
+  , ...cart.get()
+  }
 
 const toast =
   (message, imageSrc = "") => {
@@ -18,35 +26,63 @@ const toast =
     }).showToast()
   }
 
-const cart = {}
 
 cart.set = 
   (wholeCart) => localStorage.setItem(cartName, canonicalize(wholeCart))
 
-cart.get =
-    () => JSON.parse(localStorage.getItem(cartName)) || {};
+
  
 cart.clear =
-    () => localStorage.removeItem(cartName);
+    () => localStorage.setItem(cartName, canonicalize(emptyCartValue))
 
 cart.add = 
     (item) => {
-      const canonicalJson = canonicalize(item)
-      const digest = generateJsonDigest(canonicalJson)
+      const digest = jsonDigest(item)
       const currentCart = cart.get()
-      if(currentCart[digest]) {
-        if(currentCart[digest].quantity && parseInt(currentCart[digest].quantity)){
-          currentCart[digest].quantity = currentCart[digest].quantity + 1
+      if(currentCart["items"][digest]) {
+        if(currentCart["items"][digest].quantity && parseInt(currentCart["items"][digest].quantity)){
+          currentCart["items"][digest].quantity = currentCart["items"][digest].quantity + 1
         } else {
-          currentCart[digest].quantity = 2
+          currentCart["items"][digest].quantity = 2
         }
       } else {
-        currentCart[digest] = { ...item, quantity: 1 }
+        currentCart["items"][digest] = { ...item, quantity: 1 }
       }
       cart.set(currentCart)
+      cart.updateTotals()
       toast(`Added ${item.description} to cart`, item.image)
     }
+
+cart.setQuantity = 
+    (item, quantity) => {
+      const digest = jsonDigest(item)
+      const currentCart = cart.get()
+      currentCart["items"][digest] = { ...item, quantity: quantity }
+      cart.set(currentCart)
+      cart.updateTotals()
+      toast(`${quantity} x ${item.description} in cart`, item.image)
+    }
+
+cart.updateTotals =
+  () => {
+    const currentCart = cart.get()
+    const cartItemsValues = Object.values(currentCart["items"])
+    /*
+    console.log(cartValues)
+    console.log(cartValues.reduce((acc,cur)=> {
+      console.log("acc" + acc)
+      console.log("cur" + cur.quantity)
+      return acc + cur.quantity
+    },0))
+    */
+    currentCart.totalQuantity = cartItemsValues.reduce((a,c)=>parseInt(a)+parseInt(c.quantity),0)
+    currentCart.totalPrice = cartItemsValues.reduce((a,c)=>parseInt(a)+parseInt(c.price)*parseInt(c.quantity),0)
+    cart.set(currentCart)
+  }
+
  
+// Init Cart
+localStorage.setItem( cartName, canonicalize(initCartValue) )
 /*
 var helpers = {
  

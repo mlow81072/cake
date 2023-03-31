@@ -12,6 +12,10 @@
     <link rel='stylesheet' href='https://cdn.jsdelivr.net/foundation/5.0.2/css/foundation.css'>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Flamenco">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin=""/>
+<style>
+    #map{ height: 10em;}
+</style>
 
     <link rel="stylesheet" type="text/css" href="css/product-card.css">
     <link rel="stylesheet" type="text/css" href="css/hero.css">
@@ -25,6 +29,7 @@
     <script src="js/products.js"></script>
     <script src="js/functions.js"></script>
     <script src="js/canonicalize.js"></script>
+
 
     <link rel="icon" type="image/png" href="images/logo.JPG">
 
@@ -91,6 +96,7 @@
             Our biggest goal is to satisfy our customer needs and to provide quick service to them.<br><br>
             We look forward to bring many new items to the table in near future.<br><br>
         </p>
+       <div id="map"></div>
     </div><br><br>
     <center>
     <footer>
@@ -99,6 +105,19 @@
     <script src="js/load.js"></script>   
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script src="js/cart.js"></script>
+     <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+     integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
+     crossorigin=""></script>
+             <script>
+               var map = L.map('map').setView([51.505, -0.09], 13);
+                              L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(map);
+
+L.marker([51.5, -0.09]).addTo(map)
+    .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
+    .openPopup();
+             </script>
 </body>
 
 
