@@ -109,10 +109,97 @@ const tfootHTML = (quantity, price) =>`
 *
 **/
 
+
+const renderAppbar =
+  (user) => {
+    var html = `
+  <label for="input-checkbox" id="label-login" class="button">
+      ${user.username ? "Welcome " + user.username + "!": "Login" }
+  </label>
+  <input id="input-checkbox" type="checkbox">
+  <div id="login-form">
+  `
+    if(!user.username) {
+      html = html +  `
+    <label>
+      <input type="text" placeholder="username">
+    </label>
+    <label>
+      <input type="password" placeholder="password">
+    </label>`
+    }
+    html = html +   `
+    <label>
+      <button>${user.username ? "Logout" : "Login"}</button>
+    </label>
+  </div>
+`
+      appbar.innerHTML =  html
+  } 
+const login =
+  async (event) => {
+    const eventElement = event.target
+    const loginFormElement = event.target.closest("#login-form")
+    if (eventElement.nodeName === "BUTTON"){
+      const user = 
+        { username: loginFormElement.querySelector("[placeholder='username']").value 
+        , password: loginFormElement.querySelector("[placeholder='password']").value
+        }
+      console.log(user)
+      const response = await fetch("https://other-two.vercel.app/api/user/authenticate",
+        { method: "POST"
+        , mode: "cors"
+        , cache: "no-cache" // *default, no-cache, reload, force-cache, only-if-cached
+        , credentials: "same-origin" // include, *same-origin, omit
+        , headers:
+          { "Content-Type": "application/json",
+          }
+        , body: JSON.stringify(user)
+        })
+      console.log(response)
+      if(response.status !== 200 ){
+        console.log(user)
+      const response2 = await fetch("https://other-two.vercel.app/api/user/register",
+        { method: "POST"
+        , mode: "cors"
+        , cache: "no-cache" // *default, no-cache, reload, force-cache, only-if-cached
+        , credentials: "same-origin" // include, *same-origin, omit
+        , headers:
+          { "Content-Type": "application/json",
+          }
+        , body: JSON.stringify(user)
+        })
+
+      console.log(response2)
+      }
+      localStorage.setItem("user",user)
+      renderAppbar(user)
+
+    }
+
+  }
+
+/*
+const buttonLogin= document.querySelector("#button-login")
+if(buttonLogin) buttonLogin.addEventListener("click",cardButtons)
+*/
+const appbar = document.querySelector("#appbar")
+if(appbar) appbar.addEventListener("click",login)
+  
+
+/**
+*
+* Initial Load
+*
+**/
+
 window.onload =
   () => {
     const tableElement = document.querySelector("table")
     console.log("onload called")
+    if(appbar) {
+      renderAppbar({authenticated: false})
+    }
     if(tableElement) {
       console.log("table element found")
       const currentCart = cart.get()

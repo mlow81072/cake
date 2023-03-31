@@ -11,7 +11,17 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "openai": "^3.2.1"
-  }
+    "faunadb": "^4.8.0",
+    "openai": "^3.2.1",
+    "tweetnacl": "^1.0.3",
+    "tweetnacl-util": "^0.15.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mlow81072/cake.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mlow81072/cake/issues"
+  },
+  "homepage": "https://github.com/mlow81072/cake#readme"
 }
-

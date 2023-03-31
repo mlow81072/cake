@@ -47,3 +47,40 @@ table, #map { border: .5rem solid rgba(20,20,20,.8);}
 #gcash-payment img {
   height: 100%;
 }
+
+#appbar {
+  position: relative;
+  height: 3em;
+  background: #222;
+  width: 100%;
+  z-index: 11;
+}
+#appbar #label-login {
+  float: right;
+  height: 100%;
+  width: 12em;
+  margin: 0;
+}
+
+label#label-login {
+  margin: 0;
+  margin-bottom: 0;
+  height: 100%;
+  padding: 0;
+}
+input#input-checkbox ~ #login-form {
+  display: none;
+  background: #333;
+  padding: 1em;
+  right: 0;
+}
+input#input-checkbox:checked ~ #login-form {
+  display: inline-block;
+  position: absolute;
+  z-index: 2;
+  top: 3em;
+}
+input#input-checkbox{
+  display: none;
+}
+
